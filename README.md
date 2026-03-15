@@ -55,7 +55,7 @@ curl -X POST "http://localhost:8000/auth/register" \
   "is_active": true
 }
 ```
-2. Создание короткой ссылки
+### 2. Создание короткой ссылки
 Обычная ссылка:
 
 ```bash
@@ -94,3 +94,94 @@ json
   "user_id": "550e8400-e29b-41d4-a716-446655440000"
 }
 ```
+
+
+## Инструкция по запуску
+#### 1. Создание виртуального окружения
+
+```bash
+# Linux/Mac
+python -m venv venv
+source venv/bin/activate
+
+# Windows
+python -m venv venv
+venv\Scripts\activate
+```
+#### 2. Установка зависимостей
+```bash
+pip install -r requirements.txt
+```
+
+#### 3. Настройка переменных окружения
+Создайте файл .env в корне проекта:
+
+
+#### 4. Запуск PostgreSQL и Redis
+
+```bash
+# PostgreSQL (пароль должен совпадать с .env)
+docker run -d \
+  --name postgres \
+  -e POSTGRES_PASSWORD=MySecureDBpass123! \
+  -e POSTGRES_USER=urluser \
+  -e POSTGRES_DB=urlshortener \
+  -p 5432:5432 \
+  postgres:15
+
+# Redis
+docker run -d \
+  --name redis \
+  -p 6379:6379 \
+  redis:7
+```
+
+### 5. Запуск приложения
+
+```bash
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+##  База данных
+
+##  Таблица `users`
+
+Хранит информацию о зарегистрированных пользователях сервиса.
+
+### Структура таблицы
+
+| Колонка | Тип данных | Ограничения | Описание |
+|---------|------------|-------------|----------|
+| `id` | `VARCHAR` | `PRIMARY KEY` | UUID идентификатор пользователя (генерируется автоматически) |
+| `username` | `VARCHAR` | `UNIQUE`, `NOT NULL` | Уникальное имя пользователя для входа |
+| `email` | `VARCHAR` | `UNIQUE`, `NOT NULL` | Email пользователя |
+| `hashed_password` | `VARCHAR` | `NOT NULL` | Хеш пароля (bcrypt) |
+| `created_at` | `TIMESTAMP` | `DEFAULT now()` | Дата и время регистрации |
+| `is_active` | `BOOLEAN` | `DEFAULT true` | Флаг активности пользователя |
+
+---
+
+
+##  Таблица `links`
+
+Таблица `links` хранит все сокращенные ссылки, созданные пользователями сервиса. Каждая запись представляет собой связь между коротким кодом и оригинальным URL, а также содержит статистику переходов и метаданные.
+
+---
+
+##  Структура таблицы
+
+
+| Колонка | Тип данных | Ограничения | По умолчанию | Описание |
+|---------|------------|-------------|--------------|----------|
+| `id` | `VARCHAR` | `PRIMARY KEY` | `gen_random_uuid()::VARCHAR` | Уникальный идентификатор ссылки |
+| `short_code` | `VARCHAR(50)` | `UNIQUE`, `NOT NULL` | - | Уникальный короткий код для редиректа |
+| `original_url` | `TEXT` | `NOT NULL` | - | Оригинальный длинный URL |
+| `custom_alias` | `VARCHAR(50)` | `UNIQUE` | `NULL` | Пользовательский алиас (если задан) |
+| `created_at` | `TIMESTAMP` | - | `CURRENT_TIMESTAMP` | Дата создания ссылки |
+| `expires_at` | `TIMESTAMP` | - | `NULL` | Дата истечения срока действия |
+| `clicks` | `INTEGER` | - | `0` | Количество переходов по ссылке |
+| `last_accessed` | `TIMESTAMP` | - | `NULL` | Дата и время последнего перехода |
+| `user_id` | `VARCHAR` | `FOREIGN KEY REFERENCES users(id) ON DELETE SET NULL` | `NULL` | ID пользователя-владельца |
+| `is_active` | `BOOLEAN` | - | `true` | Флаг активности ссылки |
+
+---
