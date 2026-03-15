@@ -46,7 +46,7 @@ curl -X POST "http://localhost:8000/auth/register" \
   }'
 
 Ответ:
-
+```
 ```json
 {
   "id": "550e8400-e29b-41d4-a716-446655440000",
@@ -54,3 +54,5 @@ curl -X POST "http://localhost:8000/auth/register" \
   "email": "john@example.com",
   "created_at": "2024-01-15T10:30:00Z",
   "is_act
+}
+```
