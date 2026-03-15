@@ -112,6 +112,10 @@ venv\Scripts\activate
 ```bash
 pip install -r requirements.txt
 ```
+Если будет возникать ошибка с установкой greenlet, то запустить также:
+```bash
+pip install --only-binary :all: greenlet
+```
 
 #### 3. Настройка переменных окружения
 Создайте файл .env в корне проекта:
