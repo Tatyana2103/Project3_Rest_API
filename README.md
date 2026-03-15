@@ -53,6 +53,45 @@ curl -X POST "http://localhost:8000/auth/register" \
   "username": "john_doe",
   "email": "john@example.com",
   "created_at": "2024-01-15T10:30:00Z",
-  "is_act
+  "is_active": true
+}
+```
+2. Создание короткой ссылки
+Обычная ссылка:
+
+```bash
+curl -X POST "http://localhost:8000/links/shorten" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "original_url": "https://example.com/very/long/url/that/needs/shortening"
+  }'
+```
+
+С кастомным алиасом и временем жизни:
+```bash
+curl -X POST "http://localhost:8000/links/shorten" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -d '{
+    "original_url": "https://example.com/very/long/url",
+    "custom_alias": "mycustomlink",
+    "expires_at": "2024-12-31T23:59:59Z"
+  }'
+Ответ:
+```
+
+```
+json
+{
+  "id": "660e8400-e29b-41d4-a716-446655440001",
+  "short_code": "mycustomlink",
+  "short_url": "http://localhost:8000/mycustomlink",
+  "original_url": "https://example.com/very/long/url",
+  "custom_alias": "mycustomlink",
+  "created_at": "2024-01-15T10:35:00Z",
+  "expires_at": "2024-12-31T23:59:59Z",
+  "clicks": 0,
+  "last_accessed": null,
+  "user_id": "550e8400-e29b-41d4-a716-446655440000"
 }
 ```
