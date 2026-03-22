@@ -127,8 +127,8 @@ pip install --only-binary :all: greenlet
 # PostgreSQL (пароль должен совпадать с .env)
 docker run -d \
   --name postgres \
-  -e POSTGRES_PASSWORD=MySecureDBpass123! \
-  -e POSTGRES_USER=urluser \
+  -e POSTGRES_PASSWORD=password \
+  -e POSTGRES_USER=user \
   -e POSTGRES_DB=urlshortener \
   -p 5432:5432 \
   postgres:15
