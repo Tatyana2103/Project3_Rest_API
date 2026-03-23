@@ -193,32 +193,46 @@ uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ## Тестирование
 
 #### Запуск тестов с измерением покрытия
+```bash
 coverage run -m pytest tests/
+```
 
 #### Запуск конкретных тестов
+```bash
 coverage run -m pytest tests/unit/
 coverage run -m pytest tests/functional/test_auth.py
+```
 
 #### Показать отчет в терминале
+```bash
 coverage report
+```
 
 #### Создание HTML отчета
+```bash
 coverage html
+```
 
 #### Указать директорию для отчета
+```bash
 coverage html -d tests/coverage_html
+```
 
 #### Открыть отчет в браузере
+```bash
 open tests/coverage_html/index.html  # macOS
 start tests/coverage_html/index.html # Windows
 xdg-open tests/coverage_html/index.html # Linux
+```
 
 #### Нагрузочное тестирование
 
 #### Запуск Locust
 
 Запуск с веб-интерфейсом
+```bash
 locust -f tests/load/locustfile.py --host=http://localhost:8000
+```
 
 #### Покрытие кода (HTML отчет)
 HTML отчет о покрытии доступен по пути: tests/coverage_html/index.html
