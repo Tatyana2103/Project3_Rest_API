@@ -235,4 +235,4 @@ locust -f tests/load/locustfile.py --host=http://localhost:8000
 ```
 
 #### Покрытие кода (HTML отчет)
-HTML отчет о покрытии доступен по пути: tests/coverage_html/index.html
+В репозитории HTML отчет о покрытии доступен по пути: tests/Coverage report.html
