@@ -7,6 +7,7 @@
 - [Примеры запросов](#примеры-запросов)
 - [Инструкция по запуску](#инструкция-по-запуску)
 - [База данных](#база-данных)
+- [Тестирование](#тестирование)
 
 
 ##  Описание API
@@ -189,3 +190,35 @@ uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 | `is_active` | `BOOLEAN` | - | `true` | Флаг активности ссылки |
 
 ---
+## Тестирование
+
+# Запуск тестов с измерением покрытия
+coverage run -m pytest tests/
+
+# Запуск конкретных тестов
+coverage run -m pytest tests/unit/
+coverage run -m pytest tests/functional/test_auth.py
+
+# Показать отчет в терминале
+coverage report
+
+# Создание HTML отчета
+coverage html
+
+# Указать директорию для отчета
+coverage html -d tests/coverage_html
+
+# Открыть отчет в браузере
+open tests/coverage_html/index.html  # macOS
+start tests/coverage_html/index.html # Windows
+xdg-open tests/coverage_html/index.html # Linux
+
+# Нагрузочное тестирование
+
+## Запуск Locust
+
+Запуск с веб-интерфейсом
+locust -f tests/load/locustfile.py --host=http://localhost:8000
+
+## Покрытие кода (HTML отчет)
+HTML отчет о покрытии доступен по пути: tests/coverage_html/index.html
